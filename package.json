@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "nodemon ./dist/index.js",
         "ts": "tsc -w",
-        "prevStart": "tsc",
+        "prevStart": "tsc -w",
         "start": "nodemon ./dist/index.js"
     },
     "devDependencies": {

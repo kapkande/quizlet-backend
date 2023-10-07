@@ -1,12 +1,13 @@
 const express = require('express');
 import * as mysql from 'mysql2/promise';
 // import express from 'express';
-// const cors = require('cors');
+const cors = require('cors');
 const app = express();
 const port = 3500
-// app.use(cors({
-//     origin: 'http://localhost:5173'
-// }));
+app.use(cors({
+    origin: 'http://bouqeros.online:8080'
+}));
+
 
 
 

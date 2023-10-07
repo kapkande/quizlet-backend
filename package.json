@@ -5,9 +5,7 @@
     "type": "commonjs",
     "main": "index.ts",
     "scripts": {
-        "dev": "nodemon ./dist/index.js",
-        "ts": "tsc -w",
-        "prevStart": "tsc -w",
+        "prevStart": "tsc",
         "start": "nodemon ./dist/index.js"
     },
     "devDependencies": {

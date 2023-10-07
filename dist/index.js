@@ -12,12 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const mysql = require("mysql2/promise");
 // import express from 'express';
-// const cors = require('cors');
+const cors = require('cors');
 const app = express();
 const port = 3500;
-// app.use(cors({
-//     origin: 'http://localhost:5173'
-// }));
+app.use(cors({
+    origin: 'http://bouqeros.online:8080'
+}));
 const connection = mysql.createConnection({
     host: "89.111.140.27",
     user: "kap",

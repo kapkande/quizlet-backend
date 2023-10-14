@@ -11,12 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const mysql = require("mysql2/promise");
+const bcrypt = require('bcryptjs');
 // import express from 'express';
 const cors = require('cors');
 const app = express();
 const port = 3500;
 app.use(cors({
-    origin: 'http://bouqeros.online:8080'
+    origin: ['http://bouqeros.online:8080', 'http://127.0.0.1:5500', 'http://localhost:5173']
 }));
 const connection = mysql.createConnection({
     host: "89.111.140.27",
@@ -24,6 +25,39 @@ const connection = mysql.createConnection({
     database: "new_database",
     password: "C-*TUZ3Huv"
 });
+app.post('/reg', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let hashedPassword = yield bcrypt.hash(req.headers.password, 8);
+    console.log(10);
+    const sql = `INSERT INTO users SET ?`;
+    const data = { userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword, ownLessons: '{}' };
+    connection.then((conn) => {
+        conn.query(sql, data).then(([rows]) => {
+            try {
+                // res.send(rows[0]);
+                console.log(1);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    });
+}));
+//email cheack
+//     const sql = `SELECT email FROM users WHERE email = ?`
+//     const email = req.headers.email
+//     connection.then((conn: mysql.Connection) => {
+//         conn.query(sql, email).then(([rows]: any) => {
+//             try {
+//                 console.log(rows);
+//                 if (rows[0]) { res.send('The email isnt all ready'); } else (
+//                     res.send('The email is all ready')
+//                 )
+//             } catch (error) {
+//                 console.log(error);
+//             }
+//         })
+//     });
+// })
 // app.get('/', async (req: any, res: any) => {
 //     try {
 //         res.send('hell');
@@ -50,20 +84,23 @@ app.get('/data/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     });
 }));
-// //get datas name and id
-// app.get('/dataNames', async (req: any, res: any) => {
-//     const sql = `SELECT name, id FROM data `
-//     connection.then((conn: mysql.Connection) => {
-//         conn.query(sql).then(([rows]: any) => {
-//             if (!rows) { res.sendStatus('404'); }
-//             try {
-//                 res.json(rows);
-//             } catch (error) {
-//                 console.log(error);
-//             }
-//         })
-//     });
-// })
+//get datas name and id
+app.get('/dataNames', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const sql = `SELECT name, id FROM data `;
+    connection.then((conn) => {
+        conn.query(sql).then(([rows]) => {
+            if (!rows) {
+                res.sendStatus('404');
+            }
+            try {
+                res.json(rows);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    });
+}));
 // //get datas
 app.get('/data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT * FROM data`;

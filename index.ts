@@ -19,39 +19,67 @@ const connection = mysql.createConnection({
 });
 
 app.post('/reg', async (req: any, res: any) => {
-    let hashedPassword = await bcrypt.hash(req.headers.password, 8)
-    console.log(10);
-    const sql = `INSERT INTO users SET ?`
-    const data = {userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword, ownLessons: '{}'}
-    connection.then((conn: mysql.Connection) => {
-        conn.query(sql, data).then(([rows]: any) => {
-            try {
-                // res.send(rows[0]);
-                console.log(1);
-            } catch (error) {
-                console.log(error);
+    let hashedPassword = await bcrypt.hash(req.headers.password, 8);
+    const sqlForEnailCheak = "SELECT email FROM users WHERE email = ?";
+    const sqlForNameCheak = "SELECT userName FROM users WHERE userName = ?";
+    const sql = "INSERT INTO users SET ?";
+    const data = { userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword, ownLessons: '{}' };
+    connection.then(async (conn: mysql.Connection) => {
+        try {
+           // Check if name already exists
+            let [nameRows]: any = await conn.query(sqlForNameCheak, data.userName);
+            if (nameRows.length > 0) {
+                res.send('This name is already busy');
+                return;
             }
-        })
-    });
-})
 
-//email cheack
-//     const sql = `SELECT email FROM users WHERE email = ?`
-//     const email = req.headers.email
-//     connection.then((conn: mysql.Connection) => {
-//         conn.query(sql, email).then(([rows]: any) => {
+            // Check if email already exists
+            let [emailRows]: any = await conn.query(sqlForEnailCheak, data.email);
+            if (emailRows.length > 0) {
+                res.send('This email is already busy');
+                return;
+            }
 
-//             try {
-//                 console.log(rows);
-//                 if (rows[0]) { res.send('The email isnt all ready'); } else (
-//                     res.send('The email is all ready')
-//                 )
-//             } catch (error) {
-//                 console.log(error);
-//             }
-//         })
-//     });
-// })
+            // Create account
+            await conn.query(sql, data);
+            res.send('Account created successfully');
+        } catch (error) {
+            console.log(error);
+            res.send('Error creating account');
+        }
+    })
+});
+app.post('/log', async (req: any, res: any) => {
+    const sqlForUserCheck = "SELECT * FROM users WHERE userName = ? OR email = ?";
+   const data = [req.headers.name, req.headers.password];
+    connection.then(async (conn: mysql.Connection) => {
+    try {
+     
+      // Check if user exists
+      let [userRows]:any = await conn.query(sqlForUserCheck, data);
+      if (userRows.length === 0) {
+        res.send('Invalid username');
+        return;
+      }
+  
+      // Check password
+      let match = await bcrypt.compare(req.headers.password, userRows[0].userPassword);
+      if (!match) {
+        res.send('Invalid password');
+        return;
+      }
+  
+      // Login successful
+      res.send('Login successful');
+    } catch (error) {
+      console.log(error);
+      res.send('Error logging in');
+    }})
+  });
+  
+
+
+
 
 // app.get('/', async (req: any, res: any) => {
 

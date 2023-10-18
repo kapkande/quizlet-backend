@@ -10,77 +10,74 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
-const mysql = require("mysql2/promise");
+const connection_1 = require("./connection");
 const bcrypt = require('bcryptjs');
-// import express from 'express';
+const jwt = require('jsonwebtoken');
+const authRouter = require('./auth/authRouter');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
+app.use(cookieParser());
 const port = 3500;
 app.use(cors({
     origin: ['http://bouqeros.online:8080', 'http://127.0.0.1:5500', 'http://localhost:5173']
 }));
-const connection = mysql.createConnection({
-    host: "89.111.140.27",
-    user: "kap",
-    database: "new_database",
-    password: "C-*TUZ3Huv"
-});
-app.post('/reg', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let hashedPassword = yield bcrypt.hash(req.headers.password, 8);
-    const sqlForEnailCheak = "SELECT email FROM users WHERE email = ?";
-    const sqlForNameCheak = "SELECT userName FROM users WHERE userName = ?";
-    const sql = "INSERT INTO users SET ?";
-    const data = { userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword, ownLessons: '{}' };
-    connection.then((conn) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            // Check if name already exists
-            let [nameRows] = yield conn.query(sqlForNameCheak, data.userName);
-            if (nameRows.length > 0) {
-                res.send('This name is already busy');
-                return;
-            }
-            // Check if email already exists
-            let [emailRows] = yield conn.query(sqlForEnailCheak, data.email);
-            if (emailRows.length > 0) {
-                res.send('This email is already busy');
-                return;
-            }
-            // Create account
-            yield conn.query(sql, data);
-            res.send('Account created successfully');
-        }
-        catch (error) {
-            console.log(error);
-            res.send('Error creating account');
-        }
-    }));
-}));
-app.post('/log', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const sqlForUserCheck = "SELECT * FROM users WHERE userName = ? OR email = ?";
-    const data = [req.headers.name, req.headers.password];
-    connection.then((conn) => __awaiter(void 0, void 0, void 0, function* () {
-        try {
-            // Check if user exists
-            let [userRows] = yield conn.query(sqlForUserCheck, data);
-            if (userRows.length === 0) {
-                res.send('Invalid username');
-                return;
-            }
-            // Check password
-            let match = yield bcrypt.compare(req.headers.password, userRows[0].userPassword);
-            if (!match) {
-                res.send('Invalid password');
-                return;
-            }
-            // Login successful
-            res.send('Login successful');
-        }
-        catch (error) {
-            console.log(error);
-            res.send('Error logging in');
-        }
-    }));
-}));
+app.use("/auth", authRouter);
+// app.post('/reg', async (req: any, res: any) => {
+//     let hashedPassword = await bcrypt.hash(req.headers.password, 8);
+//     const sqlForEnailCheak = "SELECT email FROM users WHERE email = ?";
+//     const sqlForNameCheak = "SELECT userName FROM users WHERE userName = ?";
+//     const sql = "INSERT INTO users SET ?";
+//     const data = { userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword, ownLessons: '{}' };
+//     connection.then(async (conn: mysql.Connection) => {
+//         try {
+//            // Check if name already exists
+//             let [nameRows]: any = await conn.query(sqlForNameCheak, data.userName);
+//             if (nameRows.length > 0) {
+//                 res.send('This name is already busy');
+//                 return;
+//             }
+//             // Check if email already exists
+//             let [emailRows]: any = await conn.query(sqlForEnailCheak, data.email);
+//             if (emailRows.length > 0) {
+//                 res.send('This email is already busy');
+//                 return;
+//             }
+//             // Create account
+//             await conn.query(sql, data);
+//             res.send('Account created successfully');
+//         } catch (error) {
+//             console.log(error);
+//             res.send('Error creating account');
+//         }
+//     })
+// });
+// app.post('/log', async (req: any, res: any) => {
+//     const sqlForUserCheck = "SELECT * FROM users WHERE userName = ? OR email = ?";
+//    const data = [req.headers.name, req.headers.password];
+//     connection.then(async (conn: mysql.Connection) => {
+//     try {
+//       // Check if user exists
+//       let [userRows]:any = await conn.query(sqlForUserCheck, data);
+//       if (userRows.length === 0) {
+//         res.send('Invalid username');
+//         return;
+//       }
+//       // Check password
+//       let match = await bcrypt.compare(req.headers.password, userRows[0].userPassword);
+//       if (!match) {
+//         res.send('Invalid password');
+//         return;
+//       }
+//       // Login successful
+//  	const token = jwt.sign({ id: req.header.id  }, config.secret, { expiresIn: '1h' });
+//  	 res.cookie('token', token, { httpOnly: true });
+//       res.send('Login successful');
+//     } catch (error) {
+//       console.log(error);
+//       res.send('Error logging in');
+//     }})
+//   });
 // app.get('/', async (req: any, res: any) => {
 //     try {
 //         res.send('hell');
@@ -93,7 +90,7 @@ app.get('/data/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const sql = `SELECT * FROM data WHERE id = ?`;
     const id = `${req.params.id}`;
     console.log(id);
-    connection.then((conn) => {
+    connection_1.connection.then((conn) => {
         conn.query(sql, id).then(([rows]) => {
             if (!rows[0]) {
                 res.sendStatus('404');
@@ -110,7 +107,7 @@ app.get('/data/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* (
 //get datas name and id
 app.get('/dataNames', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT name, id FROM data `;
-    connection.then((conn) => {
+    connection_1.connection.then((conn) => {
         conn.query(sql).then(([rows]) => {
             if (!rows) {
                 res.sendStatus('404');
@@ -127,7 +124,7 @@ app.get('/dataNames', (req, res) => __awaiter(void 0, void 0, void 0, function* 
 // //get datas
 app.get('/data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT * FROM data`;
-    connection.then((conn) => {
+    connection_1.connection.then((conn) => {
         conn.query(sql).then(([rows]) => {
             if (!rows) {
                 res.sendStatus('404');
@@ -145,7 +142,7 @@ app.get('/data', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 app.get('/usersId/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT * FROM users WHERE id = ?`;
     const id = `${req.params.id}`;
-    connection.then((conn) => {
+    connection_1.connection.then((conn) => {
         conn.query(sql, id).then(([rows]) => {
             if (!rows[0]) {
                 res.sendStatus('404');

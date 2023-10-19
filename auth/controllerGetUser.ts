@@ -3,13 +3,14 @@ const bcrypt = require('bcryptjs');
 import * as mysql from 'mysql2/promise';
 import { connection } from "../connection";
 
-export const getUsers = async (req: any, res: any) => {
-       connection.then(async (conn: any) => {
+export const getUser = async (req: any, res: any) => {
+    connection.then(async (conn: any) => {
         try {
-                           
-            const e: any = await conn.query(SQL.sqlForGetUsers);
-                
-            res.json(e[0]);
+            
+            console.log(req);
+            // const e: any = await conn.query(SQL.sqlForGetUser, id);
+
+            res.json('d');
         } catch (error) {
             console.log(error);
             // res.sendStatus(400)

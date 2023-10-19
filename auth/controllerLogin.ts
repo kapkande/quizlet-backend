@@ -6,7 +6,7 @@ import { connection } from "../connection";
 import { config } from "../congig";
 
 export const login = async (req: any, res: any) => {
-    const data = [req.headers.name, req.headers.password];
+    const data = req.headers.name;
     connection.then(async (conn: mysql.Connection) => {
         try {
             // Check if user exists
@@ -24,10 +24,11 @@ export const login = async (req: any, res: any) => {
             }
 
             // Login successful
-            const token = jwt.sign({ id: req.header.id  }, config.secret, { expiresIn: '1h' });
+            const token = jwt.sign({ id: userRows[0].id, userName: userRows[0].userName }, config.secret, { expiresIn: '1h' });
             // res.cookie('token', token, { httpOnly: true });
-            res.json({token})
+            res.json({token, text:'Login successful'})
             // res.send('Login successful');
+            // res.cookie('cookieName',token, { maxAge: 900000, httpOnly: true });
         } catch (error) {
             console.log(error);
             res.send('Error logging in');

@@ -22,9 +22,9 @@ export const login = async (req: any, res: any) => {
                 res.send('Invalid password');
                 return;
             }
-
+console.log(userRows[0].permission);
             // Login successful
-            const token = jwt.sign({ id: userRows[0].id, userName: userRows[0].userName }, config.secret, { expiresIn: '1h' });
+            const token = jwt.sign({ id: userRows[0].id, userName: userRows[0].userName,permission: userRows[0].permission  }, config.secret, { expiresIn: '1h' });
             // res.cookie('token', token, { httpOnly: true });
             res.json({token, text:'Login successful'})
             // res.send('Login successful');

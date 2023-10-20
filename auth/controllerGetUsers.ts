@@ -12,8 +12,8 @@ export const getUsers = async (req: any, res: any) => {
             res.json(e[0]);
         } catch (error) {
             console.log(error);
-            // res.sendStatus(400)
-            res.send('Error getting accounts');
+            res.sendStatus(403)
+            // res.send('Error getting accounts');
         }
     })
 }

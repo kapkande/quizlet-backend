@@ -6,15 +6,12 @@ import { connection } from "../connection";
 export const getUser = async (req: any, res: any) => {
     connection.then(async (conn: any) => {
         try {
-            
-            console.log(req);
-            // const e: any = await conn.query(SQL.sqlForGetUser, id);
-
-            res.json('d');
+            const id = req.user.id
+            const e: any = await conn.query(SQL.sqlForGetUser, id);
+            return res.json(e[0]);
         } catch (error) {
             console.log(error);
             // res.sendStatus(400)
-            res.send('Error getting accounts');
-        }
+            return res.status(403).json( "Error getting accounts" );        }
     })
 }

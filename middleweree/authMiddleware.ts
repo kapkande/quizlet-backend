@@ -8,15 +8,17 @@ export function authMiddleware(req: any, res: any, next: any) {
     }
     try {
         const token = req.cookies.tocen
-        if (!token) {
-            return res.sendStatus(403).json({ massage: "The user is not logged in" })
-        }
-        const decodedData = jwt.verify(token, config.secret);
-        // console.log(decodedData);
         
-        res.user = decodedData;
+        console.log(token + " token");
+        if (!token) {
+            return res.status(403).json( "The user is not logged in" );
+        }
+                const decodedData = jwt.verify(token, config.secret);
+        console.log(decodedData);
+        
+        req.user = decodedData;
         next()
     } catch (error) {
-        return res.sendStatus(403).json({ massage: "The user is not logged in" })
+        return res.status(403).json( "The user is not logged in" );
     }
 }

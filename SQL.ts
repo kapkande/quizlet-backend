@@ -3,6 +3,6 @@ export const SQL = {
     sqlForNameCheak: "SELECT userName FROM users WHERE userName = ?",
     sqlForCreateUsers: "INSERT INTO users SET ?",
     sqlForUserCheck: "SELECT * FROM users WHERE userName = ?",
-    sqlForGetUsers: "SELECT * FROM `users` WHERE 1",
-    sqlForGetUser: "SELECT * FROM `users` WHERE id = ?",
+    sqlForGetUsers: "SELECT * FROM users",
+    sqlForGetUser: "SELECT * FROM users WHERE id = ?",
 }

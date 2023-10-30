@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import * as mysql from 'mysql2/promise';
 import { connection } from "../connection";
-import { config } from "../congig";
+import { config } from "../config";
 import { registration } from "./controllerRegistration";
 import { login } from "./controllerLogin";
 import { getUsers } from "./controllerGetUsers";

@@ -8,10 +8,10 @@ export const getUser = async (req: any, res: any) => {
         try {
             const id = req.user.id
             const e: any = await conn.query(SQL.sqlForGetUser, id);
-            return res.json(e[0]);
+            return res.json(e[0][0]);
         } catch (error) {
             console.log(error);
             // res.sendStatus(400)
-            return res.status(403).json( "Error getting accounts" );        }
+            return res.status(403).json( "Error getting account" );        }
     })
 }

@@ -14,10 +14,8 @@ const connection_1 = require("./connection");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authRouter = require('./auth/authRouter');
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
-app.use(cookieParser());
 const port = 3500;
 app.use(cors({
     origin: ['http://bouqeros.online:8080', 'http://127.0.0.1:5500', 'http://localhost:5173']

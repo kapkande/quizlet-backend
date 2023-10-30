@@ -3,14 +3,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 import * as mysql from 'mysql2/promise';
 import { connection } from "../connection";
-import { config } from "../congig";
+import { config } from "../config";
 
 export const login = async (req: any, res: any) => {
-    const data = req.headers.name;
+    const userName = req.headers.name;
     connection.then(async (conn: mysql.Connection) => {
         try {
             // Check if user exists
-            let [userRows]: any = await conn.query(SQL.sqlForUserCheck, data);
+            let [userRows]: any = await conn.query(SQL.sqlForUserCheck, userName);
             if (userRows.length === 0) {
                 res.send('Invalid username');
                 return;
@@ -24,7 +24,7 @@ export const login = async (req: any, res: any) => {
             }
 console.log(userRows[0].permission);
             // Login successful
-            const token = jwt.sign({ id: userRows[0].id, userName: userRows[0].userName,permission: userRows[0].permission  }, config.secret, { expiresIn: '1h' });
+            const token = jwt.sign({ id: userRows[0].id, userName: userRows[0].userName, permission: userRows[0].permission  }, config.secret, { expiresIn: '1h' });
             // res.cookie('token', token, { httpOnly: true });
             res.json({token, text:'Login successful'})
             // res.send('Login successful');

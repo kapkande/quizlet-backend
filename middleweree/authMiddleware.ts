@@ -9,7 +9,7 @@ export function authMiddleware(req: any, res: any, next: any) {
     try {
         // const token = req.headers.cookie.split('=')[1]
         const token = req.headers.tocen
-        console.log(token);
+        // console.log(token);
 
         if (!token) {
             return res.status(403).json("The user is not logged in");

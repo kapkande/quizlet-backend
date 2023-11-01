@@ -87,7 +87,7 @@ app.use("/auth", authRouter);
 app.get('/data/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const sql = `SELECT * FROM data WHERE id = ?`;
     const id = `${req.params.id}`;
-    console.log(id);
+    // console.log(id);
     connection_1.connection.then((conn) => {
         conn.query(sql, id).then(([rows]) => {
             if (!rows[0]) {

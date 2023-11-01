@@ -101,7 +101,7 @@ app.use("/auth", authRouter)
 app.get('/data/:id', async (req: any, res: any) => {
     const sql = `SELECT * FROM data WHERE id = ?`
     const id = `${req.params.id}`
-    console.log(id);
+    // console.log(id);
     connection.then((conn: mysql.Connection) => {
         conn.query(sql, id).then(([rows]: any) => {
             if (!rows[0]) { res.sendStatus('404'); }

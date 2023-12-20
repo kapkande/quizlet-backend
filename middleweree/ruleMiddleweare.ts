@@ -10,9 +10,11 @@ export function ruleMiddleweare(roles: string[]) {
             // const token = req.headers.cookie.split('=')[1]
             const token = req.headers.tocen
             // console.log(token);
-
+            // console.log(req.headers.tocen);
+            console.log(req);
             if (!token) {
                 return res.status(403).json("The user is not logged in");
+                
             }
 
             const { permission: permission } = jwt.verify(token, config.secret);

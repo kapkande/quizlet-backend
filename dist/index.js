@@ -14,6 +14,7 @@ const connection_1 = require("./connection");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authRouter = require('./auth/authRouter');
+const loadRouter = require('./load/loadRouter');
 const cors = require('cors');
 const app = express();
 const port = 3500;
@@ -21,6 +22,17 @@ app.use(cors({
     origin: ['http://bouqeros.online:8080', 'http://127.0.0.1:5500', 'http://localhost:5173']
 }));
 app.use("/auth", authRouter);
+// app.use("/load", loadRouter)
+app.post('/load/uploadIcon', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(1);
+    try {
+        console.log(req.headers.body);
+        res.send('hell');
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
 // app.post('/reg', async (req: any, res: any) => {
 //     let hashedPassword = await bcrypt.hash(req.headers.password, 8);
 //     const sqlForEnailCheak = "SELECT email FROM users WHERE email = ?";

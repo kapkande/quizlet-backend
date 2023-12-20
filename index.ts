@@ -5,7 +5,7 @@ import { connection } from './connection';
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authRouter  = require('./auth/authRouter');
-
+const loadRouter  = require('./load/loadRouter');
 
 
 const cors = require('cors');
@@ -18,6 +18,18 @@ app.use(cors({
 
 
 app.use("/auth", authRouter)
+// app.use("/load", loadRouter)
+
+app.post('/load/uploadIcon', async (req: any, res: any) => {
+    
+    console.log(1);
+    try {
+        console.log(req.headers.body);
+        res.send('hell');
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 // app.post('/reg', async (req: any, res: any) => {
 //     let hashedPassword = await bcrypt.hash(req.headers.password, 8);

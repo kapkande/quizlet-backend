@@ -22,17 +22,18 @@ app.use(cors({
     origin: ['http://bouqeros.online:8080', 'http://127.0.0.1:5500', 'http://localhost:5173']
 }));
 app.use("/auth", authRouter);
-// app.use("/load", loadRouter)
-app.post('/load/uploadIcon', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(1);
-    try {
-        console.log(req.headers.body);
-        res.send('hell');
-    }
-    catch (error) {
-        console.log(error);
-    }
-}));
+app.use("/load", loadRouter);
+// app.post('/load', upload.single('icon'), async (req: any, res: any) => {
+//     console.log(1);
+//     try {
+//         console.log(req.file);
+//         console.log(req.body);
+//         res.send('hello');
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 // app.post('/reg', async (req: any, res: any) => {
 //     let hashedPassword = await bcrypt.hash(req.headers.password, 8);
 //     const sqlForEnailCheak = "SELECT email FROM users WHERE email = ?";

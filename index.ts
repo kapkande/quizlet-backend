@@ -1,4 +1,5 @@
 const express = require('express');
+ 
 import * as mysql from 'mysql2/promise';
 import { config } from './config';
 import { connection } from './connection';
@@ -16,20 +17,20 @@ app.use(cors({
 }));
 
 
-
 app.use("/auth", authRouter)
-// app.use("/load", loadRouter)
+app.use("/load", loadRouter)
 
-app.post('/load/uploadIcon', async (req: any, res: any) => {
-    
-    console.log(1);
-    try {
-        console.log(req.headers.body);
-        res.send('hell');
-    } catch (error) {
-        console.log(error);
-    }
-})
+// app.post('/load', upload.single('icon'), async (req: any, res: any) => {
+//     console.log(1);
+//     try {
+//         console.log(req.file);
+//         console.log(req.body);
+//         res.send('hello');
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 // app.post('/reg', async (req: any, res: any) => {
 //     let hashedPassword = await bcrypt.hash(req.headers.password, 8);

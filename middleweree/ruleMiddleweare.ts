@@ -18,7 +18,7 @@ export function ruleMiddleweare(roles: string[]) {
             }
 
             const { permission: permission } = jwt.verify(token, config.secret);
-            // console.log(roles);
+            
             let hasRole = false;
             console.log(permission);
             // permission.forEach((role:string )=> {

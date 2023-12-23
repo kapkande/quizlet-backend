@@ -12,7 +12,7 @@ export const getIcon = async (req: any, res: any) => {
             const nameOfFile = fs.readdirSync(path.join(folderPath, 'icons'));
             filePath = path.join(folderPath, 'icons', nameOfFile[0]);
         } else {
-            filePath = path.join(__dirname, '../src/user.svg');
+            filePath = path.join(__dirname, '../src/icons/user.svg');
         }
 
         res.sendFile(filePath, (err: any) => {

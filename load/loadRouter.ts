@@ -8,6 +8,7 @@ import { SQL } from "../SQL";
 import * as mysql from 'mysql2/promise';
 import { authMiddleware } from "../middleweree/authMiddleware";
 import { getIcon } from "./getIcon";
+import { getSettingSvg } from "./getSettingSvg";
 
 const router: Router = Router();
 
@@ -25,22 +26,8 @@ const router: Router = Router();
 // }
 router.post('/uploadIcon', authMiddleware, uploadIcon, (req: any, res) => {
     res.json({ message: 'File uploaded successfully' });
-    // connection.then(async (conn: mysql.Connection) => {
-    //     try {
-    //         const id = req.user.id
-    //         const src = req.iconSrc
-
-    //         await conn.query(SQL.sqlForUsersIcon, [src, id])
-            
-    //         res.json({ message: 'File uploaded successfully' });
-
-    //     } catch (error) {
-    //         console.log(error);
-    //         res.sendStatus(400)
-    //     }
-    // })
 }
 );
 router.get('/icon/*', getIcon)
-
+router.get('/settingSvg', getSettingSvg)
 module.exports = router;

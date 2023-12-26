@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authRouter  = require('./auth/authRouter');
 const loadRouter  = require('./load/loadRouter');
-
+import './src/icons/setting.svg'
+import './src/icons/user.svg'
 
 const cors = require('cors');
 const app = express();

@@ -6,4 +6,5 @@ export const SQL = {
     sqlForGetUsers: "SELECT * FROM users",
     sqlForGetUser: "SELECT * FROM users WHERE id = ?",
     sqlForUsersIcon: "UPDATE `users` SET `icon` = ? WHERE `users`.`id` = ?",
+    
 }

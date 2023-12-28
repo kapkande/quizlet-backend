@@ -15,6 +15,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authRouter = require('./auth/authRouter');
 const loadRouter = require('./load/loadRouter');
+const editRouter = require('./edit/editRouter');
+// import './src/icons/setting.svg'
+// import './src/icons/user.svg'
 const cors = require('cors');
 const app = express();
 const port = 3500;
@@ -23,6 +26,7 @@ app.use(cors({
 }));
 app.use("/auth", authRouter);
 app.use("/load", loadRouter);
+app.use("/edit", editRouter);
 // app.post('/load', upload.single('icon'), async (req: any, res: any) => {
 //     console.log(1);
 //     try {

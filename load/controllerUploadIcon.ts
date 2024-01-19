@@ -5,6 +5,8 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: function (req: any, file: any, cb: any) {
+        console.log(req.headers);
+        // req.headers.username} заменить на ответ с виделвейра
         const uploadDir = path.join(__dirname, '../', `/src/${req.headers.username}/icons`);
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });

@@ -6,5 +6,5 @@ export const SQL = {
     sqlForGetUsers: "SELECT * FROM users",
     sqlForGetUser: "SELECT * FROM users WHERE id = ?",
     sqlForUsersIcon: "UPDATE `users` SET `icon` = ? WHERE `users`.`id` = ?",
-    
+    sqlForCreateOwnLessons: "INSERT INTO `ownLessons` (`userName`, `lessons`, `id`) VALUES (?, '[]', NULL);",
 }

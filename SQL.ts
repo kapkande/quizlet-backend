@@ -6,5 +6,7 @@ export const SQL = {
     sqlForGetUsers: "SELECT * FROM users",
     sqlForGetUser: "SELECT * FROM users WHERE id = ?",
     sqlForUsersIcon: "UPDATE `users` SET `icon` = ? WHERE `users`.`id` = ?",
-    sqlForCreateOwnLessons: "INSERT INTO `ownLessons` (`userName`, `lessons`, `id`) VALUES (?, '[]', NULL);",
+    sqlForCreateOwnLessons: "INSERT INTO `ownLessons` (`userName`, `lessons`) VALUES (?, ?);",
+    // sqlForUpdateOwnLessons: "UPDATE `ownLessons` SET `lessons` = '?' WHERE `ownLessons`.`id` = ?;",
+    // sqlForGetOwnLessons: "SELECT * FROM ownLessons WHERE id = 1;"
 }

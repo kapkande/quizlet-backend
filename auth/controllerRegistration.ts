@@ -6,7 +6,7 @@ import { connection } from "../connection";
 export const registration = async (req: any, res: any) => {
     let hashedPassword = await bcrypt.hash(req.headers.password, 8);
    
-    const data = { userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword, ownLessons: '{}' };
+    const data = { userName: req.headers.name, email: req.headers.email, userPassword: hashedPassword };
     connection.then(async (conn: mysql.Connection) => {
         try {
             // Check if name already exists
@@ -25,8 +25,7 @@ export const registration = async (req: any, res: any) => {
 
             // Create account
             await conn.query(SQL.sqlForCreateUsers, data);
-            await conn.query(SQL.sqlForCreateOwnLessons, [req.headers.name]);
-
+            
             res.send('Account created successfully');
         } catch (error) {
             console.log(error);

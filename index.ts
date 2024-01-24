@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const authRouter  = require('./auth/authRouter');
 const loadRouter  = require('./load/loadRouter');
 const editRouter  = require('./edit/editRouter');
+const lessonsRouter  = require('./lessons/lessonsRouter');
+
 // import './src/icons/setting.svg'
 // import './src/icons/user.svg'
 
@@ -22,7 +24,7 @@ app.use(cors({
 app.use("/auth", authRouter)
 app.use("/load", loadRouter)
 app.use("/edit", editRouter)
-
+app.use("/data", lessonsRouter)
 // app.post('/load', upload.single('icon'), async (req: any, res: any) => {
 //     console.log(1);
 //     try {
@@ -114,52 +116,40 @@ app.use("/edit", editRouter)
 
 
 // //get data by id
-app.get('/data/:id', async (req: any, res: any) => {
-    const sql = `SELECT * FROM data WHERE id = ?`
-    const id = `${req.params.id}`
-    // console.log(id);
-    connection.then((conn: mysql.Connection) => {
-        conn.query(sql, id).then(([rows]: any) => {
-            if (!rows[0]) { res.sendStatus('404'); }
-            try {
-                res.json(rows[0]);
-            } catch (error) {
-                console.log(error);
-            }
-        })
-    });
-})
+// app.get('/data/:id', async (req: any, res: any) => {
+//     const sql = `SELECT * FROM data WHERE id = ?`
+//     const id = `${req.params.id}`
+//     // console.log(id);
+//     connection.then((conn: mysql.Connection) => {
+//         conn.query(sql, id).then(([rows]: any) => {
+//             if (!rows[0]) { res.sendStatus('404'); }
+//             try {
+//                 res.json(rows[0]);
+//             } catch (error) {
+//                 console.log(error);
+//             }
+//         })
+//     });
+// })
 
 //get datas name and id
-app.get('/dataNames', async (req: any, res: any) => {
-    const sql = `SELECT name, id FROM data `
-    connection.then((conn: mysql.Connection) => {
-        conn.query(sql).then(([rows]: any) => {
-            if (!rows) { res.sendStatus('404'); }
-            try {
-                res.json(rows);
-            } catch (error) {
-                console.log(error);
-            }
-        })
-    });
-})
+// app.get('/dataNames', async (req: any, res: any) => {
+//     const sql = `SELECT name, id FROM data `
+//     connection.then((conn: mysql.Connection) => {
+//         conn.query(sql).then(([rows]: any) => {
+//             if (!rows) { res.sendStatus('404'); }
+//             try {
+//                 res.json(rows);
+//             } catch (error) {
+//                 console.log(error);
+//             }
+//         })
+//     });
+// })
 
 
 // //get datas
-app.get('/data', async (req: any, res: any) => {
-    const sql = `SELECT * FROM data`
-    connection.then((conn: mysql.Connection) => {
-        conn.query(sql).then(([rows]: any) => {
-            if (!rows) { res.sendStatus('404'); }
-            try {
-                res.json(rows);
-            } catch (error) {
-                console.log(error);
-            }
-        })
-    });
-})
+
 
 // //get user by id
 app.get('/usersId/:id', async (req: any, res: any) => {

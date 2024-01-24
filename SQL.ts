@@ -9,4 +9,7 @@ export const SQL = {
     sqlForCreateOwnLessons: "INSERT INTO `ownLessons` (`userName`, `lessons`) VALUES (?, ?);",
     // sqlForUpdateOwnLessons: "UPDATE `ownLessons` SET `lessons` = '?' WHERE `ownLessons`.`id` = ?;",
     // sqlForGetOwnLessons: "SELECT * FROM ownLessons WHERE id = 1;"
+    sqlForGetUsersLessons: "SELECT * FROM `ownLessons` WHERE `userName` LIKE ?",
+    sqlForGetUsersLesson: "SELECT * FROM ownLessons WHERE id = ? AND userName = ?",
+
 }

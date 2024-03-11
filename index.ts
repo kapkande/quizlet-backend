@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const authRouter  = require('./auth/authRouter');
 const loadRouter  = require('./load/loadRouter');
 const editRouter  = require('./edit/editRouter');
+const gptRouter  = require('./gpt/gptRouter');
 const lessonsRouter  = require('./lessons/lessonsRouter');
 
 // import './src/icons/setting.svg'
@@ -25,6 +26,7 @@ app.use("/auth", authRouter)
 app.use("/load", loadRouter)
 app.use("/edit", editRouter)
 app.use("/data", lessonsRouter)
+app.use("/gpt" , gptRouter)
 // app.post('/load', upload.single('icon'), async (req: any, res: any) => {
 //     console.log(1);
 //     try {

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 export function authMiddleware(req: any, res: any, next: any) {
     if (req.method === "OPTIONS") {
-        next()
+        next();
     }
     try {
         // const token = req.headers.cookie.split('=')[1]

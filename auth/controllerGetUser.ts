@@ -1,6 +1,4 @@
 import { SQL } from "../SQL";
-const bcrypt = require('bcryptjs');
-import * as mysql from 'mysql2/promise';
 import { connection } from "../connection";
 
 export const getUser = async (req: any, res: any) => {
